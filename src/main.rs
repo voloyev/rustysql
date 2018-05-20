@@ -33,7 +33,7 @@ fn repl(db: &mut HashMap<i32, String>) {
 }
 
 fn read_line() -> String {
-    print!("> ");
+    print!("db_name > ");
     io::stdout().flush().unwrap();
     let mut input = String::new();
     io::stdin().read_line(&mut input).expect("somthing wrong");
