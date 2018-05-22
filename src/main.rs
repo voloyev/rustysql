@@ -1,31 +1,41 @@
-use std::collections::HashMap;
+use dealer::deal_with_it;
 use std::io;
 use std::io::Write;
+
+mod dealer;
+mod table;
 mod tokenizer;
 
+pub use table::Table;
+
 fn main() {
-    let mut db = HashMap::new();
+    let mut db = Table { row: Vec::new() };
     repl(&mut db);
 }
 
-fn repl(db: &mut HashMap<i32, String>) {
+fn repl(db: &mut Table) {
     let mut checker = true;
     let mut counter = 0;
 
     while checker {
-        let tmp = read_line();
-        if tmp.trim() == ".exit" {
+        let input = read_line();
+        if input.trim() == ".exit" {
             format!("Bye!\n");
             checker = false;
             continue;
         }
 
-        let (input, write) = check_input(tmp, db);
+        let (input, write) = deal_with_it(input, db);
 
         if write {
             counter += 1;
-            println!("{:?}", tokenizer::run(&input));
-            db.insert(counter, input);
+            let serialized = tokenizer::run(&input);
+
+            db.insert(
+                counter,
+                serialized[1].to_string(),
+                serialized[2].to_string(),
+            );
         } else {
             println!("{}", input);
         }
@@ -40,42 +50,13 @@ fn read_line() -> String {
     input
 }
 
-fn check_input(input: String, db: &mut HashMap<i32, String>) -> (String, bool) {
-    if input.trim() == ".help" {
-        return (
-            String::from(
-                "Available commands are: \n\n.exit\tto exit program\n.help\tto show this help\n",
-            ),
-            false,
-        );
-    }
-
-    if input.trim() == ".select" {
-        println!("{:?}", db);
-        return (String::from(""), false);
-    }
-
-    return (input, true);
-}
-
 #[test]
-fn check_help_input_test() {
-    let mut db = HashMap::new();
-    let a = check_input(String::from(".help"), &mut db);
-    assert_eq!(
-        a,
-        (
-            String::from(
-                "Available commands are: \n\n.exit\tto exit program\n.help\tto show this help\n"
-            ),
-            false
-        )
-    )
-}
+#[should_panic]
+fn check_panic() {
+    pub use table::Row;
 
-#[test]
-fn check_select_input_test() {
-    let mut db = HashMap::new();
-    let a = check_input(String::from(".select"), &mut db);
-    assert_eq!(a, (String::from(""), false))
+    let mut db = Table { row: Vec::new() };
+    let input = String::from("select");
+    let serialized = tokenizer::run(&input);
+    db.insert(1, serialized[1].to_string(), serialized[2].to_string());
 }
