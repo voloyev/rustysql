@@ -2,8 +2,10 @@
 
 pub use table::Table;
 
-pub fn deal_with_it(input: String, db: &mut Table) -> (String, bool) {
+pub fn deal_with_it(input: String, db: &mut Table, options: String) -> (String, bool) {
+    println!("{:?}", options);
     if input.trim() == ".help" {
+        println!("{:?}", options);
         return (
             String::from(
                 "Available commands are: \n\n.exit\tto exit program\n.help\tto show this help\n",

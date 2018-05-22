@@ -1,3 +1,7 @@
+#[macro_use]
+extern crate clap;
+
+use clap::App;
 use dealer::deal_with_it;
 use std::io;
 use std::io::Write;
@@ -16,6 +20,8 @@ fn main() {
 fn repl(db: &mut Table) {
     let mut checker = true;
     let mut counter = 0;
+    let options = load_yaml!("helpers.yml");
+    let matches = App::from_yaml(options).get_matches();
 
     while checker {
         let input = read_line();
@@ -25,7 +31,7 @@ fn repl(db: &mut Table) {
             continue;
         }
 
-        let (input, write) = deal_with_it(input, db);
+        let (input, write) = deal_with_it(input, db, matches;
 
         if write {
             counter += 1;

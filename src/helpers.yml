@@ -1,0 +1,2 @@
+help:
+  "Available commands are: \n\n.exit\tto exit program\n.help\tto show this help\n"

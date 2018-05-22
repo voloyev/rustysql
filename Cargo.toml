@@ -4,4 +4,4 @@ version = "0.1.0"
 authors = ["Volodymyr Yevtushenko <voloyev@vivaldi.net>"]
 
 [dependencies]
-text_io = "*"
+clap={ features = ["yaml"] }
