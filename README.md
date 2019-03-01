@@ -17,3 +17,7 @@ retrieve data, insert data, update data, or delete data.
 - [ ] Integrity constraints must be available and stored in the metadata, not in an application program.
 - [ ] The data manipulation language of the relational system should not care where or how the physical data is distributed and should not require alteration if the physical data is centralized or distributed.
 - [ ] Any row processing done in the system must obey the same integrity rules and constraints that set-processing operations do.
+
+# Links
+- Filesystem:
+  https://en.wikipedia.org/wiki/B%2B_tree
